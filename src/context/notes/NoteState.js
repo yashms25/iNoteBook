@@ -35,6 +35,7 @@ const NoteState = (props) => {
 
       body: JSON.stringify({ title, description, tag }),
     });
+    console.log(response);
 
     getNotes();
   };
@@ -50,6 +51,8 @@ const NoteState = (props) => {
           "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjFhMGQ3NGViZTQyNzNkYTFkZmQ5OTNlIn0sImlhdCI6MTYzODAyMDEzNX0.TNZyprcl4LUVY4nClZvhp018trQD2cAEf4HvhBXfhdI",
       },
     });
+    console.log(response);
+
     getNotes();
   };
 
@@ -65,6 +68,7 @@ const NoteState = (props) => {
 
       body: JSON.stringify({ title, description, tag }),
     });
+    console.log(response);
 
     for (let index = 0; index < notes.length; index++) {
       const element = notes[index];
@@ -74,6 +78,7 @@ const NoteState = (props) => {
         element.tag = tag;
       }
     }
+    getNotes();
   };
 
   return (

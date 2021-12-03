@@ -5,16 +5,23 @@ import Noteitem from "./Noteitem";
 
 export default function Notes() {
   const context = useContext(NoteContext);
-  const { notes, getNotes } = context;
+  const { notes, getNotes, editNote } = context;
 
   useEffect(() => {
     getNotes();
     // eslint-disable-next-line
   }, []);
-  const [note, setNote] = useState({ etitle: "", edescription: "", etag: "" });
+  const [note, setNote] = useState({
+    id: "",
+    etitle: "",
+    edescription: "",
+    etag: "",
+  });
   const updateNote = (currentNote) => {
     ref.current.click();
+
     setNote({
+      id: currentNote._id,
       etitle: currentNote.title,
       edescription: currentNote.description,
       etag: currentNote.tag,
@@ -22,11 +29,15 @@ export default function Notes() {
   };
   const handleClick = (e) => {
     e.preventDefault();
+    editNote(note.id, note.etitle, note.edescription, note.etag);
+    refclose.current.click();
   };
   const onChange = (e) => {
     setNote({ ...note, [e.target.name]: e.target.value });
   };
   const ref = useRef(null);
+  const refclose = useRef(null);
+
   return (
     <div>
       <Addnote />
@@ -84,8 +95,8 @@ export default function Notes() {
                   <input
                     type="text"
                     className="form-control"
-                    id="edecription"
-                    name="edecription"
+                    id="edescription"
+                    name="edescription"
                     onChange={onChange}
                     value={note.edescription}
                   />
@@ -111,10 +122,18 @@ export default function Notes() {
                 type="button"
                 className="btn btn-secondary"
                 data-bs-dismiss="modal"
+                ref={refclose}
               >
                 Close
               </button>
-              <button onClick={handleClick} type="button" className="btn btn-primary">
+              <button
+                disabled={
+                  note.etitle.length < 3 || note.edescription.length < 5
+                }
+                onClick={handleClick}
+                type="button"
+                className="btn btn-primary"
+              >
                 Update Note
               </button>
             </div>
@@ -123,6 +142,9 @@ export default function Notes() {
       </div>
       <div className="row my-3">
         <h2>Your Notes</h2>
+        <div className="container mx-2">
+          {notes.length === 0 && "No notes to display"}
+        </div>
         {notes.map((note) => {
           return (
             <Noteitem key={note._id} updateNote={updateNote} note={note} />

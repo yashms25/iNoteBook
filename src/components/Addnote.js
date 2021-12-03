@@ -4,10 +4,11 @@ import NoteContext from "../context/notes/NoteContext";
 export default function Addnote() {
   const context = useContext(NoteContext);
   const { addNote } = context;
-  const [note, setNote] = useState({ title: "", decription: "", tag: "" });
+  const [note, setNote] = useState({ title: "", description: "", tag: "" });
   const handleClick = (e) => {
     e.preventDefault();
-    addNote(note.title, note.decription, note.tag);
+    addNote(note.title, note.description, note.tag);
+    setNote({ title: "", description: "", tag: "" });
   };
   const onChange = (e) => {
     setNote({ ...note, [e.target.name]: e.target.value });
@@ -27,18 +28,20 @@ export default function Addnote() {
             name="title"
             aria-describedby="emailHelp"
             onChange={onChange}
+            value={note.title}
           />
         </div>
         <div className="mb-3">
-          <label htmlFor="decription" className="form-label">
+          <label htmlFor="description" className="form-label">
             Description
           </label>
           <input
             type="text"
             className="form-control"
-            id="decription"
-            name="decription"
+            id="description"
+            name="description"
             onChange={onChange}
+            value={note.description}
           />
         </div>
         <div className="mb-3">
@@ -51,10 +54,16 @@ export default function Addnote() {
             id="tag"
             name="tag"
             onChange={onChange}
+            value={note.tag}
           />
         </div>
 
-        <button type="submit" className="btn btn-primary" onClick={handleClick}>
+        <button
+          disabled={note.title.length < 3 || note.description.length < 5}
+          type="submit"
+          className="btn btn-primary"
+          onClick={handleClick}
+        >
           Add Note
         </button>
       </form>
