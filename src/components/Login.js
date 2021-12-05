@@ -47,6 +47,7 @@ export default function Login() {
             aria-describedby="emailHelp"
             value={credentials.email}
             onChange={onChange}
+            required
           />
         </div>
         <div className="mb-3">
@@ -60,6 +61,7 @@ export default function Login() {
             name="password"
             value={credentials.password}
             onChange={onChange}
+            required
           />
         </div>
 
