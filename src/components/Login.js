@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function Login() {
+export default function Login(props) {
   const [credentials, setCredentials] = useState({ email: "", password: "" });
   let navigate = useNavigate();
   const handleSubmit = async (e) => {
@@ -10,8 +10,6 @@ export default function Login() {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "auth-token":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjFhMGQ3NGViZTQyNzNkYTFkZmQ5OTNlIn0sImlhdCI6MTYzODAyMDEzNX0.TNZyprcl4LUVY4nClZvhp018trQD2cAEf4HvhBXfhdI",
       },
       body: JSON.stringify({
         email: credentials.email,
@@ -23,8 +21,9 @@ export default function Login() {
     if (json.success) {
       localStorage.setItem("token", json.authtoken);
       navigate("/");
+      props.showAlert("Login successfully", "success");
     } else {
-      alert("Invalid Credentials");
+      props.showAlert("Invalid Credentials", "danger");
     }
   };
 

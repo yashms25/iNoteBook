@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function Signup() {
+export default function Signup(props) {
   const [credentials, setCredentials] = useState({
     name: "",
     email: "",
@@ -13,8 +13,8 @@ export default function Signup() {
     e.preventDefault();
     const { name, email, password, cpassword } = credentials;
     if (password !== cpassword) {
-      alert("password must be same");
       setCredentials({ name: "", email: "", password: "", cpassword: "" });
+      props.showAlert("Password must be same", "danger");
     } else {
       const response = await fetch(
         "http://localhost:5000/api/auth/createuser",
@@ -22,8 +22,6 @@ export default function Signup() {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "auth-token":
-              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjFhMGQ3NGViZTQyNzNkYTFkZmQ5OTNlIn0sImlhdCI6MTYzODAyMDEzNX0.TNZyprcl4LUVY4nClZvhp018trQD2cAEf4HvhBXfhdI",
           },
           body: JSON.stringify({
             name,
@@ -37,8 +35,13 @@ export default function Signup() {
       if (json.success) {
         localStorage.setItem("token", json.authtoken);
         navigate("/login");
+        props.showAlert("Account created successfully", "success");
       } else {
-        alert("Invalid Credentials");
+        if (json.error === "Sorry a user with this email already exists.")
+          props.showAlert(
+            "Sorry a user with this email already exists.",
+            "danger"
+          );
       }
     }
   };
