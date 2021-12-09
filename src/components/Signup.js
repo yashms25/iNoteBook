@@ -34,8 +34,8 @@ export default function Signup(props) {
       console.log(json);
       if (json.success) {
         localStorage.setItem("token", json.authtoken);
-        navigate("/login");
         props.showAlert("Account created successfully", "success");
+        navigate("/login");
       } else {
         if (json.error === "Sorry a user with this email already exists.")
           props.showAlert(
@@ -51,7 +51,9 @@ export default function Signup(props) {
   };
 
   return (
-    <div>
+    <div className="mt-3">
+      <h2>Create an account to use iNoteBook</h2>
+
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
           <label htmlFor="name" className="form-label">
