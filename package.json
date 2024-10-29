@@ -21,7 +21,7 @@
     "eject": "react-scripts eject",
     "both": "concurrently \"npm run start\" \"nodemon backend/index.js\",
   "predeploy": "npm run build",
-  "deploy": "gh-pages -d build" 
+  "deploy": "master -d build" 
   },
   "eslintConfig": {
     "extends": [
